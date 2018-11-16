@@ -1,6 +1,6 @@
 # Helpful-NodeJS-Things
 
-# Sleep in nodeJS
+## Sleep in nodeJS
 Function:
 ```JavaScript
 function sleep(millis) {
