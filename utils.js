@@ -19,11 +19,14 @@ function syncForIn(arr, func) {
     });
 }
 
-// md5hash gen + checksum
+// Generate md5hash for a string
+// md5("some string")
 function md5(d) {
     return rstr2hex(binl2rstr(binl_md5(rstr2binl(d), 8 * d.length))).toLowerCase();
 }
 
+// Generate md5hash for a file
+// md5f("./path/to/file")
 function md5f(f) {
     var d = fs.readFileSync(f, "binary");
     return rstr2hex(binl2rstr(binl_md5(rstr2binl(d), 8 * d.length))).toLowerCase();
