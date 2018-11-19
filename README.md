@@ -4,9 +4,9 @@
 Function:
 ```JavaScript
 function sleep(millis) {
-  return new Promise((res, rej) => {
-    setTimeout(millis, res);
-  });
+    return new Promise((res, rej) => {
+        setTimeout(millis, res);
+    });
 }
 ```
 To Run:
