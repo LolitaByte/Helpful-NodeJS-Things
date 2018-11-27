@@ -86,3 +86,7 @@ function bit_rol(d, _) {
     return d << _ | d >>> 32 - _;
 }
 
+module.exports.sleep = sleep;
+module.exports.syncForIn = syncForIn;
+module.exports.md5 = md5;
+module.exports.md5f = md5f;
