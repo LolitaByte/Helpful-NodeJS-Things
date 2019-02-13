@@ -220,7 +220,77 @@ function bit_rol(d, _) {
     return d << _ | d >>> 32 - _;
 }
 
+//
+//
+
+const hashTypes = [
+    "md5"
+];
+
+var clock = [];
+clock.push(0)
+
+const characters = [
+    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+    "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
+];
+
+async function bruteForce(hashType, hash) {
+    var start = new Date();
+    var solution = "";
+    var solString;
+    
+    if(hashType == "md5") {
+        while(solution != hash) {
+            await new Promise((res, rej) => {
+                for(var i = clock.length - 1; i >= 0; i--) {
+                    if(i == clock.length - 1) {
+                        if(clock[i] >= characters.length - 1) {
+                            clock[i] = 0;
+                            if(i - 1 > -1) {
+                                clock[i-1]++;
+                            } else {
+                                clock.unshift(0);
+                            }
+                        } else {
+                            clock[i]++;
+                        }
+                    } else {
+                        if(clock[i] >= characters.length) {
+                            clock[i] = 0;
+                            if(i - 1 > -1) {
+                                clock[i-1]++;
+                            } else {
+                                clock.unshift(0);
+                            }
+                        }
+                    }
+                    if(i == 0) res();
+                }
+            });
+            var stringToTest = await getClockAsString();
+            solString = stringToTest;
+            var solution = md5(stringToTest);
+        }
+
+        var end = new Date() - start;
+        return `Found a match in ${end}ms : ${solString}`;
+    }
+}
+
+function getClockAsString() {
+    return new Promise((res, rej) => {
+        var string = "";
+        for(var i = 0; i < clock.length; i++) {
+            string += characters[clock[i]];
+            if(i == clock.length - 1) res(string);
+        }
+    });
+}
+
 module.exports.sleep = sleep;
 module.exports.syncForIn = syncForIn;
 module.exports.md5 = md5;
 module.exports.md5f = md5f;
+module.exports.bruteForce = bruteForce;
